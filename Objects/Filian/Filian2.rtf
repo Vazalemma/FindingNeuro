@@ -1,0 +1,220 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil MS Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs24 Information about object: Filian2
+\par \b0\fs16 
+\par Sprite: s_filianD
+\par Solid: false
+\par Visible: true
+\par Depth: 0
+\par Persistent: false
+\par Parent: parNPC
+\par Mask: <same as sprite>
+\par 
+\par \b Create Event:
+\par \b0 execute code:
+\par 
+\par image_speed = 0;
+\par image_index = 0;
+\par movingspd = 0.12;
+\par 
+\par depth = -y;
+\par 
+\par gotox = x;
+\par gotoy = y;
+\par 
+\par move = 0;
+\par 
+\par cycle = 0;
+\par again = 0;
+\par close = 0;
+\par 
+\par stage = "start";
+\par 
+\par talking = 0;
+\par spd = 1;
+\par 
+\par checkpoint = 0;
+\par winner = "";
+\par 
+\par message1 = "";
+\par message2 = "";
+\par message3 = "";
+\par expression = "";
+\par 
+\par auto = 1;
+\par 
+\par 
+\par \b  Step Event:
+\par \b0 execute code:
+\par 
+\par depth = -y;
+\par image_speed *= sign(spd - 1) + 1;
+\par 
+\par 
+\par 
+\par 
+\par // Move to GotoX, GotoY
+\par 
+\par if (x != gotox || y != gotoy) \{
+\par    move_towards_point(gotox, gotoy, 3.5);
+\par    image_speed = 1/4;
+\par    move = 1;
+\par    if (gotox > x) sprite_index = s_filianR;
+\par    else sprite_index = s_filianL;
+\par    if (gotoy > y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_filianD;
+\par    if (gotoy < y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_filianU;
+\par \}
+\par 
+\par if (gotox != x || gotoy != y) \{
+\par    if (abs(x - gotox) < 4 && abs(y - gotoy) < 4) \{
+\par       gotox = x;
+\par       gotoy = y;
+\par       move = 0;
+\par       image_speed = 0;
+\par       image_index = 0;
+\par       move_towards_point(x, y, 0);
+\par       if (Vedal.x > x) Vedal.face = "left";
+\par       else Vedal.face = "right";
+\par       if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "up";
+\par       if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "down";
+\par    \}
+\par \}
+\par 
+\par if (gotox == x && gotoy == y && auto == 1) \{
+\par    if (Vedal.x > x) sprite_index = s_filianR;
+\par    else sprite_index = s_filianL;
+\par    if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_filianD;
+\par    if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_filianU;
+\par \}
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Walking sounds
+\par 
+\par if (image_index == 1 && walkSound = 0 && sprite_index != s_filiDead) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep1);
+\par \}
+\par if (image_index == 3 && walkSound = 0 && sprite_index != s_filiDead) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep2);
+\par \}
+\par walkSound = 0;
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Race
+\par 
+\par if (stage == "Race") \{
+\par     if (instance_exists(o_spaceBar)) with (o_spaceBar) instance_destroy();
+\par     if (move == 1) break;
+\par     if (checkpoint == 15) \{
+\par         stage = "Finish";
+\par         Vedal.spawnSpace = 1;
+\par         if (winner == "Filian") \{
+\par             message1 = "Hell yeah! Your Twitter timeline is mine!";
+\par             message2 = "Ugh, I'm really not much of a runner...";
+\par             expression = "Unimpressed";
+\par             message3 = "You've gotta train more for the future!";
+\par         \}
+\par         if (winner == "Vedal") \{
+\par             message1 = "When, *pant*, I didn't know you're such#a good runner...";
+\par             message2 = "Never underestimate a programmer!";
+\par             expression = "Smirk";
+\par             message3 = "I'll note that down for the future.";
+\par         \}
+\par     \}
+\par     switch(checkpoint) \{
+\par         case 0: gotox = 420; gotoy = 2820; break;
+\par         case 1: gotox = 500; gotoy = 2700; break;
+\par         case 2: gotox = 340; gotoy = 2490; break;
+\par         case 3: gotox = 490; gotoy = 2350; break;
+\par         case 4: gotox = 410; gotoy = 2190; break;
+\par         case 5: gotox = 130; gotoy = 2100; break;
+\par         case 6: gotox = 140; gotoy = 1900; break;
+\par         case 7: gotox = 325; gotoy = 1790; break;
+\par         case 8: gotox = 690; gotoy = 2000; break;
+\par         case 9: gotox = 900; gotoy = 1950; break;
+\par         case 10: gotox = 900; gotoy = 1580; break;
+\par         case 11: gotox = 130; gotoy = 1520; break;
+\par         case 12: gotox = 140; gotoy = 810; break;
+\par         case 13: gotox = 500; gotoy = 740; break;
+\par         case 14: gotox = 520; gotoy = 300; break;
+\par     \}
+\par     checkpoint += 1;
+\par     break;
+\par \}
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Talking to her
+\par 
+\par if (distance_to_object(Vedal) < 32 && global.textBoxIsTyping == 0) close = 1;
+\par else close = 0;
+\par 
+\par if (move == 1) break;
+\par if (timer > 0) \{ timer -= 1; break; \}
+\par if (global.textBoxIsTyping == 1) break;
+\par 
+\par if (close == 0 && talking == 0) break;
+\par 
+\par if (stage == "start") \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", "Alright, winner gets to write on the#loser's Twitter timeline!", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Haven't I already written enough there#recently??", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Filian", "", "Alright, ready?", 1);
+\par    else if (cycle == 3 && Interact()) \{ DisplayMessage("Filian", "", "3...", 1); timer = 60; \}
+\par    else if (cycle == 4) \{ DisplayMessage("Filian", "", "2...", 1); timer = 60; \}
+\par    else if (cycle == 5) \{ DisplayMessage("Filian", "", "1...", 1); timer = 60; \}
+\par    else if (cycle == 6) \{ cycle = -1; EndMessage(1); stage = "Race"; talking = 0; sound_stop(forest); sound_play(race); FilianController.play = 1; with (o_blockbox2) instance_destroy(); \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "Finish" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", message1, 1); \}
+\par    else if (cycle == 1 && Interact()) \{ DisplayMessage("Vedal", expression, message2, 1); \}
+\par    else if (cycle == 2 && Interact()) \{ DisplayMessage("Filian", "", message3, 1); \}
+\par    else if (cycle == 3 && Interact()) \{ DisplayMessage("Filian", "", "Anyway, that jogging made me think...", 1); \}
+\par    else if (cycle == 4 && Interact()) \{ DisplayMessage("Filian", "", "What if Neuro actually ran away?", 1); \}
+\par    else if (cycle == 5 && Interact()) \{ DisplayMessage("Vedal", "Surpised", "Oh my god, really?", 1); \}
+\par    else if (cycle == 6 && Interact()) \{ DisplayMessage("Vedal", "Unimpressed", "Who could have seen that one coming!", 1); \}
+\par    else if (cycle == 7 && Interact()) \{ DisplayMessage("Filian", "", "You can never call these things too early!", 1); \}
+\par    else if (cycle == 8 && Interact()) \{ DisplayMessage("Filian", "", "It also made me realize, you've never#told her that you love her, right?", 1); \}
+\par    else if (cycle == 9 && Interact()) \{ DisplayMessage("Vedal", "Displeased", "Not you too...", 1); \}
+\par    else if (cycle == 10 && Interact()) \{ DisplayMessage("Filian", "", "Me too? Did Camila also suggest that?", 1); \}
+\par    else if (cycle == 11 && Interact()) \{ DisplayMessage("Filian", "", "Man, Camila and I share more brain cells#than I thought...", 1); \}
+\par    else if (cycle == 12 && Interact()) \{ DisplayMessage("Filian", "", "But yeah, I'm pretty sure she left cuz#she thought you don't love her.", 1); \}
+\par    else if (cycle == 13 && Interact()) \{ DisplayMessage("Filian", "", "In fact, I calculate a 99% chance that#Neuro left you for the lack of love!", 1); \}
+\par    else if (cycle == 14 && Interact()) \{ DisplayMessage("Vedal", "Unimpressed", "I calculate a 99% chance that your#dad left you for the lack of milk.", 1); \}
+\par    else if (cycle == 15 && Interact()) \{ EndMessage(0); timer = 60; \}
+\par    else if (cycle == 16) \{ auto = 0; sprite_index = s_filiDead; image_index = 0; timer = 40; \}
+\par    else if (cycle == 17) \{ image_index = 1; sound_play(clothesRustle); timer = 40; \}
+\par    else if (cycle == 18) \{ image_index = 2; sound_play(necksnap); timer = 60; \}
+\par    else if (cycle == 19) \{ image_angle = 90; sound_play(thud); timer = 115; \}
+\par    else if (cycle == 20) \{ DisplayMessage("Vedal", "Smirk", "You can stop playing dead now.", 1); \}
+\par    else if (cycle == 21 && Interact()) \{ EndMessage(0); timer = 60; \}
+\par    else if (cycle == 22) \{ image_angle = 0; auto = 1; sound_play(clothesRustle); timer = 40; \}
+\par    else if (cycle == 23) \{ DisplayMessage("Filian", "", "But if Neuro truly ran away...", 1); \}
+\par    else if (cycle == 24 && Interact()) \{ DisplayMessage("Filian", "", "Then the one that would know the most#would be her mother, wouldn't it?", 1); \}
+\par    else if (cycle == 25 && Interact()) \{ DisplayMessage("Vedal", "", "I'm not so sure, but I could give it#a try I suppose.", 1); \}
+\par    else if (cycle == 26 && Interact()) \{ DisplayMessage("Filian", "", "Alright, I'm sending you to Anny!", 1); \}
+\par    else if (cycle == 27 && Interact()) \{ DisplayMessage("Vedal", "", "And how are you going to do that?", 1); \}
+\par    else if (cycle == 28 && Interact()) \{ DisplayMessage("Filian", "", "I'm going to beam you up!", 1); \}
+\par    else if (cycle == 29 && Interact()) \{ DisplayMessage("Vedal", "Surprised", "Beam... me up...?", 0.5); \}
+\par    else if (cycle == 30 && Interact()) \{ EndMessage(0); timer = 60; \}
+\par    else if (cycle == 31) \{ cycle = -1; EndMessage(0); stage = "Done"; instance_create(Vedal.x, Vedal.y, o_beam); FilianController.play = 2; sound_stop(forest); Vedal.spawnSpace = 0; with (FilianController) instance_destroy(); \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "Done") break;
+\par 
+\par cycle += 1;
+\par 
+\par 
+\par }
+ 

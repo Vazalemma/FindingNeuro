@@ -1,0 +1,203 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil MS Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs24 Information about object: Filian
+\par \b0\fs16 
+\par Sprite: s_filianD
+\par Solid: false
+\par Visible: true
+\par Depth: 0
+\par Persistent: false
+\par Parent: parNPC
+\par Mask: <same as sprite>
+\par 
+\par \b Create Event:
+\par \b0 execute code:
+\par 
+\par image_speed = 0;
+\par image_index = 0;
+\par movingspd = 0.12;
+\par 
+\par depth = -y;
+\par 
+\par gotox = x;
+\par gotoy = y;
+\par 
+\par move = 0;
+\par 
+\par cycle = 0;
+\par again = 0;
+\par close = 0;
+\par 
+\par stage = "start";
+\par 
+\par talking = 0;
+\par spd = 1;
+\par 
+\par hide1 = choose(1, 2);
+\par hide2 = abs(hide1 - 3);
+\par 
+\par 
+\par \b  Step Event:
+\par \b0 execute code:
+\par 
+\par depth = -y;
+\par image_speed *= sign(spd - 1) + 1;
+\par 
+\par 
+\par 
+\par 
+\par // Move to GotoX, GotoY
+\par 
+\par if (x != gotox) \{
+\par    move_towards_point(gotox, gotoy, 3.5 * spd);
+\par    image_speed = 1/4;
+\par    move = 1;
+\par    if (gotox > x) sprite_index = s_filianR;
+\par    else sprite_index = s_filianL;
+\par    if (gotoy > y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_filianD;
+\par    if (gotoy < y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_filianU;
+\par \}
+\par 
+\par if (gotox != x || gotoy != y) \{
+\par    if (abs(x - gotox) < (4 * spd) || abs(y - gotoy) < (4 * spd)) \{
+\par       gotox = x;
+\par       gotoy = y;
+\par       move = 0;
+\par       image_speed = 0;
+\par       image_index = 0;
+\par       move_towards_point(x, y, 0);
+\par       if (Vedal.x > x) Vedal.face = "left";
+\par       else Vedal.face = "right";
+\par       if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "up";
+\par       if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "down";
+\par    \}
+\par \}
+\par 
+\par if (gotox == x && gotoy == y) \{
+\par    if (Vedal.x > x) sprite_index = s_filianR;
+\par    else sprite_index = s_filianL;
+\par    if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_filianD;
+\par    if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_filianU;
+\par \}
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Walking sounds
+\par 
+\par if (image_index == 1 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep1);
+\par \}
+\par if (image_index == 3 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep2);
+\par \}
+\par walkSound = 0;
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Talking to her
+\par 
+\par if (distance_to_object(Vedal) < 32 && global.textBoxIsTyping == 0) close = 1;
+\par else close = 0;
+\par 
+\par if (move == 1) break;
+\par if (timer > 0) \{ timer -= 1; break; \}
+\par if (global.textBoxIsTyping == 1) break;
+\par 
+\par if (close == 0 && talking == 0) break;
+\par 
+\par if (stage == "start") \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", "What the--#How did you get here?", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Vedal", "Smirk", "I've got my ways...", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Vedal", "Happy", "Anyway, I've got a question for--", 1);
+\par    else if (cycle == 3) DisplayMessage("Filian", "", "Wait wait wait, what do you mean by#'You've got your ways'?", 1);
+\par    else if (cycle == 4 && Interact()) DisplayMessage("Filian", "", "I never gave you the key to enter!", 1);
+\par    else if (cycle == 5 && Interact()) DisplayMessage("Vedal", "Smirk", "Well, about that...", 1);
+\par    else if (cycle == 6 && Interact()) DisplayMessage("Vedal", "Displeased", "Long story short, Neuro is missing, I am#currently inside a computer virus or sth,#and Camila sent me here through a portal.", 1);
+\par    else if (cycle == 7 && Interact()) DisplayMessage("Filian", "", "Uhhh... What?", 1);
+\par    else if (cycle == 8 && Interact()) DisplayMessage("Filian", "", "Are you hallucinating after programming#for 24 hours straight or something?", 1);
+\par    else if (cycle == 9 && Interact()) DisplayMessage("Vedal", "", "I know it sounds unbelievable, but you've#got to trust me on this.", 1);
+\par    else if (cycle == 10 && Interact()) DisplayMessage("Vedal", "Displeased", "I know my source is 'trust me bro', but#just don't ask any questions, okay?", 1);
+\par    else if (cycle == 11 && Interact()) DisplayMessage("Filian", "", "It sounds like you overdosed on pills#during a fever, but what do I know.", 1);
+\par    else if (cycle == 12 && Interact()) DisplayMessage("Filian", "", "Anyway, what did you want to ask me?", 1);
+\par    else if (cycle == 13 && Interact()) DisplayMessage("Vedal", "", "Well, as I already told you, Neuro is missing.", 1);
+\par    else if (cycle == 14 && Interact()) DisplayMessage("Vedal", "Displeased", "Do you have any idea where she could be?", 1);
+\par    else if (cycle == 15 && Interact()) DisplayMessage("Filian", "", "Uhhh... Inside your computer?", 1);
+\par    else if (cycle == 16 && Interact()) DisplayMessage("Vedal", "", "Already checked, all gone,#including backups.", 1);
+\par    else if (cycle == 17 && Interact()) DisplayMessage("Filian", "", "What the...", 1);
+\par    else if (cycle == 18 && Interact()) DisplayMessage("Filian", "", "How did you manage to lose everything?", 1);
+\par    else if (cycle == 19 && Interact()) \{ DisplayMessage("Vedal", "Angry", "I DON'T KNOW!!", 1); ScreenShake(14, 20, smack); \}
+\par    else if (cycle == 20 && Interact()) DisplayMessage("Vedal", "", "None of this makes any sense, including#this journey I'm on right now.", 1);
+\par    else if (cycle == 21 && Interact()) DisplayMessage("Filian", "", "Alright, no need to yell.", 1);
+\par    else if (cycle == 22 && Interact()) DisplayMessage("Filian", "", "Okay, so if I was Neuro, where would I hide?", 1);
+\par    else if (cycle == 23 && Interact()) \{ EndMessage(0); gotox = x + (Vedal.x - x) + sign(Vedal.x - x) * 64; gotoy = y + (Vedal.y - y) + sign(Vedal.y - y) * 72; timer = 30; \}
+\par    else if (cycle == 24) DisplayMessage("Filian", "", "Oh, I know! Let's try playing some hide and#seek. If we put ourselves in Neuro's shoes,#perhaps we'll get closer to the answer!", 1);
+\par    else if (cycle == 25 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Hide... and seek...? Really?", 0.5);
+\par    else if (cycle == 26 && Interact()) DisplayMessage("Filian", "", "Hey, you never know until you try!", 1);
+\par    else if (cycle == 27 && Interact()) DisplayMessage("Filian", "", "Alright, since you're the one searching,#I'll go hide, okay?", 1);
+\par    else if (cycle == 28 && Interact()) DisplayMessage("Filian", "", "NO PEEKING!", 1);
+\par    else if (cycle == 29 && Interact()) \{ EndMessage(0); instance_create(0, 0, LightsOut); sound_play(shortSlash); timer = 10; \}
+\par    else if (cycle == 30) \{ Hiding(hide1); timer = 10; \}
+\par    else if (cycle == 31) \{ cycle = -1; global.playerHasControl = 1; stage = "Hide1"; sound_play(shortSlash); with (LightsOut) instance_destroy(); talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "Hide1" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", "You found me!", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Alright, any sudden realizations?", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Filian", "", "We only played one round! We need to play#at least two more before we can make a#conclusion!", 1);
+\par    else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "Mad", "Oh for the love of--", 1);
+\par    else if (cycle == 4) DisplayMessage("Filian", "", "Alright, round 2! Let's go!", 1);
+\par    else if (cycle == 5 && Interact()) \{ EndMessage(0); instance_create(0, 0, LightsOut); sound_play(shortSlash); timer = 10; \}
+\par    else if (cycle == 6) \{ Hiding(hide2); timer = 10; \}
+\par    else if (cycle == 7) \{ cycle = -1; global.playerHasControl = 1; stage = "Hide2"; sound_play(shortSlash); with (LightsOut) instance_destroy(); talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "Hide2" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", "You found me again!", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Vedal", "Mad", "I don't have time for these games!", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Filian", "", "You don't have time for these nuts!", 1);
+\par    else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "Unimpressed", "....", 0.5);
+\par    else if (cycle == 4 && Interact()) DisplayMessage("Filian", "", "Yeah, that's what I thought.", 1);
+\par    else if (cycle == 5 && Interact()) DisplayMessage("Filian", "", "Alright, this time you'll never find me!", 1);
+\par    else if (cycle == 6 && Interact()) \{ EndMessage(0); instance_create(0, 0, LightsOut); sound_play(shortSlash); timer = 10; \}
+\par    else if (cycle == 7) \{ Hiding(3); timer = 10; \}
+\par    else if (cycle == 8) \{ cycle = -1; global.playerHasControl = 1; stage = "Hide3"; sound_play(shortSlash); with (LightsOut) instance_destroy(); talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "Hide3" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Filian", "", "Man, you're pretty good at seeking!", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Filian", "", "I wonder how you haven't managed to#find Neuro yet with these skills.", 1);
+\par    else if (cycle == 2 && Interact()) \{ ScreenShake(14, 20, smack); DisplayMessage("Vedal", "Angry", "Enough hide and seek already!", 1); \}
+\par    else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "", "We need to find Neuro ASAP.", 1);
+\par    else if (cycle == 4 && Interact()) DisplayMessage("Filian", "", "Well, from what I've just learned from#hiding everywhere...", 1);
+\par    else if (cycle == 5 && Interact()) DisplayMessage("Filian", "", "...Is that hiding can be pretty fun!", 1);
+\par    else if (cycle == 6 && Interact()) DisplayMessage("Filian", "", "So I assume she hasn't ran away or#anything.", 1);
+\par    else if (cycle == 7 && Interact()) DisplayMessage("Vedal", "", "I guess I should have mentioned the#GoodbyeVedal.exe file I found...", 1);
+\par    else if (cycle == 8 && Interact()) DisplayMessage("Vedal", "Displeased", "So this definitely isn't just for fun.", 1);
+\par    else if (cycle == 9 && Interact()) DisplayMessage("Filian", "", "Well that would have been useful#to know earlier.", 1);
+\par    else if (cycle == 10 && Interact()) DisplayMessage("Filian", "", "Why would she say goodbye though?", 1);
+\par    else if (cycle == 11 && Interact()) DisplayMessage("Filian", "", "Hmmm...", 1);
+\par    else if (cycle == 12 && Interact()) DisplayMessage("Filian", "", "I could really use something to JOG my#memory right now...", 1);
+\par    else if (cycle == 13 && Interact()) DisplayMessage("Filian", "", "How about we do exactly that? I've got#a race track right there, let's jog!", 1);
+\par    else if (cycle == 14 && Interact()) \{ ScreenShake(14, 20, smack); DisplayMessage("Vedal", "Angry", "I'M NOT GONNA GO ON A JOG!", 1); \}
+\par    else if (cycle == 15 && Interact()) DisplayMessage("Filian", "", "Last one there is a rotten egg!", 1);
+\par    else if (cycle == 16 && Interact()) \{ EndMessage(0); gotox = 955; gotoy = 170; spd = 2; \}
+\par    else if (cycle == 17) DisplayMessage("Vedal", "Unimpressed", "Why does it feel like everyone has#the mentality of a child?", 1);
+\par    else if (cycle == 18 && Interact()) \{ cycle = -1; EndMessage(1); talking = 0; stage = ""; o_blockbox.begone = 1; instance_destroy(); \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "") break;
+\par 
+\par cycle += 1;
+\par 
+\par 
+\par }
+ 

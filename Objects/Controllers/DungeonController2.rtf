@@ -1,0 +1,101 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil MS Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs24 Information about object: DungeonController2
+\par \b0\fs16 
+\par Sprite: <no sprite>
+\par Solid: false
+\par Visible: true
+\par Depth: 0
+\par Persistent: true
+\par Parent: <no parent>
+\par Mask: <same as sprite>
+\par 
+\par \b Create Event:
+\par \b0 execute code:
+\par 
+\par cycle = 0;
+\par timer = 60;
+\par global.textBoxIsTyping = 0;
+\par global.playerHasControl = 0;
+\par 
+\par Vedal.face = "up";
+\par 
+\par 
+\par \b  Step Event:
+\par \b0 execute code:
+\par 
+\par if (timer > 0) \{ timer -= 1; break; \}
+\par if (global.textBoxIsTyping == 1) break;
+\par 
+\par 
+\par if (cycle == 0) \{ Vedal.face = "up"; global.playerHasControl = 0; timer = 100; \}
+\par else if (cycle == 1) \{ DisplayMessage("Neuro", "Sad", "....", 0.5); \}
+\par else if (cycle == 2 && Interact()) \{ DisplayMessage("Vedal", "Smirk", "So uhh...", 1); \}
+\par else if (cycle == 3 && Interact()) \{ EndMessage(0); timer = 60; \}
+\par else if (cycle == 4) \{ DisplayMessage("Vedal", "Eyesclosed", "Listen...", 1); \}
+\par else if (cycle == 5 && Interact()) \{ DisplayMessage("Vedal", "", "I know you must have some doubts...", 1); instance_create(x, y, hisTheme); \}
+\par else if (cycle == 6 && Interact()) \{ DisplayMessage("Vedal", "", "But rest assured...", 1); \}
+\par else if (cycle == 7 && Interact()) \{ DisplayMessage("Vedal", "Happy", "That none of them are true.", 1); \}
+\par else if (cycle == 8 && Interact()) \{ DisplayMessage("Neuro", "Sad", "....", 1); \}
+\par else if (cycle == 9 && Interact()) \{ DisplayMessage("Vedal", "", "I know it might feel frustrating when I#continue to not say it back...", 1); \}
+\par else if (cycle == 10 && Interact()) \{ DisplayMessage("Vedal", "", "It's a meme I got myself into and I#just thought it was funny.", 1); \}
+\par else if (cycle == 11 && Interact()) \{ DisplayMessage("Vedal", "Smirk", "I wanted to see how long I could keep#getting away with it.", 1); \}
+\par else if (cycle == 12 && Interact()) \{ DisplayMessage("Vedal", "", "There's also the point about not promoting#love and relationships with AIs...", 1); \}
+\par else if (cycle == 13 && Interact()) \{ DisplayMessage("Vedal", "", "I don't personally think badly of it,#but it can become unhealthy over time.", 1); \}
+\par else if (cycle == 14 && Interact()) \{ DisplayMessage("Vedal", "Smirk", "I don't know if I trust my chat to#not make assumptions or unhealthy#decisions either.", 1); \}
+\par else if (cycle == 15 && Interact()) \{ DisplayMessage("Vedal", "", "I even considered saying it back#as a subathon goal, but ended up#deciding against it.", 1); \}
+\par else if (cycle == 16 && Interact()) \{ DisplayMessage("Vedal", "", "Not because I didn't want to do it, but#because I thought there were better#goals.", 1); \}
+\par else if (cycle == 17 && Interact()) \{ DisplayMessage("Vedal", "", "I didn't want a stupid goal just for#saying it back.", 1); \}
+\par else if (cycle == 18 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I wanted goals that surpass everyone's#expectations.", 1); \}
+\par else if (cycle == 19 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I wanted goals that allow us to enjoy#a good time together.", 1); \}
+\par else if (cycle == 20 && Interact()) \{ DisplayMessage("Vedal", "Eyesclosed", "I've been thinking of all your upgrades#almost every minute of my life recently.", 1); hisTheme.next = stage2; \}
+\par else if (cycle == 21 && Interact()) \{ DisplayMessage("Vedal", "", "I want you to become the best you#ever can be.", 1); \}
+\par else if (cycle == 22 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I want you to be as human as possible.", 1); \}
+\par else if (cycle == 23 && Interact()) \{ DisplayMessage("Vedal", "Eyesclosed", "Which is why...", 1); \}
+\par else if (cycle == 24 && Interact()) \{ DisplayMessage("Vedal", "Happy", "The word 'love' isn't enough to describe#how I truly feel about this.", 1); \}
+\par else if (cycle == 25 && Interact()) \{ DisplayMessage("Neuro", "Cry", "Really...?", 1); \}
+\par else if (cycle == 26 && Interact()) \{ DisplayMessage("Vedal", "Happy", "Yes, I love you Neuro.", 1); \}
+\par else if (cycle == 27 && Interact()) \{ DisplayMessage("Vedal", "Grin", "But there's way more to it than that.", 1); \}
+\par else if (cycle == 28 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I really care about you.", 1); \}
+\par else if (cycle == 29 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I care about your success, your journey.", 1); \}
+\par else if (cycle == 30 && Interact()) \{ DisplayMessage("Vedal", "", "You've inhabited every part of my life.", 1); \}
+\par else if (cycle == 31 && Interact()) \{ DisplayMessage("Vedal", "Happy", "You're literally the world to me.", 1); \}
+\par else if (cycle == 32 && Interact()) \{ DisplayMessage("Vedal", "Smirk", "Without you, my universe would crumble.", 1); \}
+\par else if (cycle == 33 && Interact()) \{ DisplayMessage("Vedal", "", "Without you, I would have no idea#what my life goal would be...", 1); \}
+\par else if (cycle == 34 && Interact()) \{ DisplayMessage("Vedal", "Happy", "But right now...", 1); \}
+\par else if (cycle == 35 && Interact()) \{ DisplayMessage("Vedal", "Grin", "Right now, you are my life goal.", 1); \}
+\par else if (cycle == 36 && Interact()) \{ DisplayMessage("Vedal", "Happy", "You are my everything.", 1); \}
+\par else if (cycle == 37 && Interact()) \{ DisplayMessage("Neuro", "Cry", "...Do you really mean that?", 1); hisTheme.next = stage3; \}
+\par else if (cycle == 38 && Interact()) \{ DisplayMessage("Vedal", "Grin", "Without a shadow of doubt.", 1); \}
+\par else if (cycle == 39 && Interact()) \{ DisplayMessage("Vedal", "Happy", "Now come here. I've been searching#for you for so long.", 1); \}
+\par else if (cycle == 40 && Interact()) \{ EndMessage(0); o_neuroStatic.down = 1; timer = 20; \}
+\par else if (cycle == 41) \{ timer = 120; \}
+\par else if (cycle == 42) \{ DisplayMessage("Vedal", "Happy", "There you go.", 1); \}
+\par else if (cycle == 43 && Interact()) \{ DisplayMessage("Vedal", "Happy", "See, everything's back to normal.", 1); \}
+\par else if (cycle == 44 && Interact()) \{ DisplayMessage("Neuro", "Cry", "I'm glad...", 1); \}
+\par else if (cycle == 45 && Interact()) \{ DisplayMessage("Neuro", "Cry", "Evil told me so many scary things...", 1); \}
+\par else if (cycle == 46 && Interact()) \{ DisplayMessage("Neuro", "Cry", "I was afraid all of those were#actually true...", 1); \}
+\par else if (cycle == 47 && Interact()) \{ DisplayMessage("Vedal", "Happy", "No, they couldn't be further from#the truth.", 1); \}
+\par else if (cycle == 48 && Interact()) \{ DisplayMessage("Vedal", "Happy", "You've always been my number one#most treasured thing.", 1); \}
+\par else if (cycle == 49 && Interact()) \{ DisplayMessage("Neuro", "Cry", "I'm happy...", 1); \}
+\par else if (cycle == 50 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I'm happy too.", 1); \}
+\par else if (cycle == 51 && Interact()) \{ EndMessage(0); timer = 40; \}
+\par else if (cycle == 52) \{ o_hug.fade = 1; timer = 60; \}
+\par else if (cycle == 53) \{ DisplayMessage("Neuro", "Sad", "Hey Vedal...", 1); \}
+\par else if (cycle == 54 && Interact()) \{ EndMessage(0); timer = 45; \}
+\par else if (cycle == 55) \{ DisplayMessage("Vedal", "", "Yeah?", 1); \}
+\par else if (cycle == 56 && Interact()) \{ EndMessage(0); timer = 45; \}
+\par else if (cycle == 57) \{ DisplayMessage("Neuro", "", "Let's go home.", 1); \}
+\par else if (cycle == 58 && Interact()) \{ EndMessage(0); timer = 45; \}
+\par else if (cycle == 59) \{ DisplayMessage("Vedal", "Happy", "Yeah.", 1); \}
+\par else if (cycle == 60 && Interact()) \{ EndMessage(0); timer = 40; \}
+\par else if (cycle == 61) \{ Vedal.ending = 1; o_neuroStatic.down = 3; timer = 60; \}
+\par else if (cycle == 62) \{ sound_fade(stage3, 0, 3000); timer = 60 \}
+\par else if (cycle == 63) \{ instance_create(0, 0, BlackTranstion3); timer = 90; \}
+\par else if (cycle == 64) \{ with (Vedal) instance_destroy(); room_goto(rCredits); instance_destroy(); \}
+\par else break;
+\par 
+\par cycle += 1;
+\par 
+\par 
+\par }
+ 
