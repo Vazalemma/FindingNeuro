@@ -1,0 +1,264 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil MS Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs24 Information about object: Camila
+\par \b0\fs16 
+\par Sprite: s_camilaD
+\par Solid: false
+\par Visible: true
+\par Depth: 0
+\par Persistent: true
+\par Parent: parNPC
+\par Mask: <same as sprite>
+\par 
+\par \b Create Event:
+\par \b0 execute code:
+\par 
+\par image_speed = 0;
+\par image_index = 0;
+\par movingspd = 0.12;
+\par 
+\par depth = -y;
+\par 
+\par gotox = x;
+\par gotoy = y;
+\par 
+\par move = 0;
+\par 
+\par cycle = 0;
+\par again = 0;
+\par close = 0;
+\par 
+\par stage = "start";
+\par fire = 0;
+\par 
+\par talking = 0;
+\par spd = 1;
+\par 
+\par crystal = 0;
+\par postcrystal = 0;
+\par 
+\par 
+\par \b  Step Event:
+\par \b0 execute code:
+\par 
+\par if (move == 0) \{ timer -= 1; \}
+\par if (fire == 8) \{ fire = 0; stage = "quest"; \}
+\par depth = -y;
+\par if (stage == "wait2") \{
+\par     if (gotox == x && !instance_exists(o_Portal2)) \{
+\par         instance_create(1024, 1152, o_Portal2);
+\par         if (crystal == 0) \{ postcrystal = 1; stage = "finish4"; \}
+\par         else if (crystal < 128) \{ postcrystal = 1; stage = "finish"; \}
+\par         else stage = "finish2";
+\par     \}
+\par \}
+\par if (postcrystal == 1 && crystal == 128) \{
+\par     postcrystal = 2;
+\par     stage = "finish3";
+\par \}
+\par 
+\par 
+\par image_speed *= (sign(spd - 1) + 1);
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Move to GotoX, GotoY
+\par 
+\par if (x != gotox) \{
+\par    move_towards_point(gotox, gotoy, 3.5 * spd);
+\par    image_speed = 1/4;
+\par    move = 1;
+\par    if (gotox > x) sprite_index = s_camilaR;
+\par    else sprite_index = s_camilaL;
+\par    if (gotoy > y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_camilaD;
+\par    if (gotoy < y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_camilaU;
+\par \}
+\par 
+\par if (gotox != x || gotoy != y) \{
+\par    if (abs(x - gotox) < (4 * spd) || abs(y - gotoy) < (4 * spd)) \{
+\par       gotox = x;
+\par       gotoy = y;
+\par       move = 0;
+\par       image_speed = 0;
+\par       image_index = 0;
+\par       move_towards_point(x, y, 0);
+\par       if (Vedal.x > x) Vedal.face = "left";
+\par       else Vedal.face = "right";
+\par       if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "up";
+\par       if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "down";
+\par    \}
+\par \}
+\par 
+\par if (gotox == x && gotoy == y) \{
+\par    if (Vedal.x > x) sprite_index = s_camilaR;
+\par    else sprite_index = s_camilaL;
+\par    if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_camilaD;
+\par    if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_camilaU;
+\par \}
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Walking sounds
+\par 
+\par if (image_index == 1 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep1);
+\par \}
+\par if (image_index == 3 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(grassstep2);
+\par \}
+\par walkSound = 0;
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Talking to her
+\par 
+\par if (distance_to_object(Vedal) < 32 && global.textBoxIsTyping == 0) close = 1;
+\par else close = 0;
+\par 
+\par if (move == 1) break;
+\par if (timer > 0) \{ timer -= 1; break; \}
+\par if (global.textBoxIsTyping == 1) break;
+\par if (talking == 0 && close == 0) break;
+\par 
+\par if (stage == "start") \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Camila", "", "OH HIII! Didn't expect to see you here!", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Yeah, hi...", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Camila", "", "Did you miss me so much and couldn't#bare being without me?", 1);
+\par    else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "Unimpressed", "...We literally talked like a few days ago.", 1);
+\par    else if (cycle == 4 && Interact()) DisplayMessage("Vedal", "", "The situation is actually way more#complicated.", 1);
+\par    else if (cycle == 5 && Interact()) DisplayMessage("Vedal", "", "You see...", 1);
+\par    else if (cycle == 6 && Interact()) DisplayMessage("Vedal", "Displeased", "Neuro has gone missing.", 1);
+\par    else if (cycle == 7 && Interact()) \{ DisplayMessage("Camila", "", "WHAAAAAAAAAT?!", 1); ScreenShake(14, 20, shock); \}
+\par    else if (cycle == 8 && Interact()) DisplayMessage("Vedal", "Displeased", "And not just that...", 1);
+\par    else if (cycle == 9 && Interact()) DisplayMessage("Vedal", "", "But there was a file on my computer#called GoodbyeVedal.exe.", 1);
+\par    else if (cycle == 10 && Interact()) DisplayMessage("Vedal", "", "And when I opened it...", 1);
+\par    else if (cycle == 11 && Interact()) DisplayMessage("Vedal", "Surprised", "EVERYTHING WENT RED!", 1);
+\par    else if (cycle == 12 && Interact()) DisplayMessage("Vedal", "", "And now, I somehow ended up here...", 1);
+\par    else if (cycle == 13 && Interact()) \{ EndMessage(0); gotox = x + (Vedal.x - x) + sign(Vedal.x - x) * 48; gotoy = y + (Vedal.y - y) + sign(Vedal.y - y) * 64; timer = 20; \}
+\par    else if (cycle == 14) DisplayMessage("Camila", "", "....", 1);
+\par    else if (cycle == 15 && Interact()) DisplayMessage("Camila", "", "How many bottles of rum did you have#yesterday?", 1);
+\par    else if (cycle == 16 && Interact()) \{ DisplayMessage("Vedal", "Angry", "NONE!", 1); ScreenShake(14, 20, smack); \}
+\par    else if (cycle == 17 && Interact()) DisplayMessage("Vedal", "Displeased", "Listen, I have no idea what's going on,#but we need to find Neuro!", 1);
+\par    else if (cycle == 18 && Interact()) DisplayMessage("Camila", "", "...Did you ever say it back?", 1);
+\par    else if (cycle == 19 && Interact()) DisplayMessage("Vedal", "Unimpressed", "What does that have to do with anything?", 1);
+\par    else if (cycle == 20 && Interact()) DisplayMessage("Camila", "", "Did you ever consider that she might#leave if you never say it back?", 1);
+\par    else if (cycle == 21 && Interact()) DisplayMessage("Vedal", "Mad", "She literally can't leave! She's stuck in my#computer whether she wants to or not!", 1);
+\par    else if (cycle == 22 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Do you have any other ideas?", 1);
+\par    else if (cycle == 23 && Interact()) DisplayMessage("Camila", "", "Hmmm...", 1);
+\par    else if (cycle == 24 && Interact()) \{ EndMessage(0); gotox = x + (Vedal.x - x) + sign(Vedal.x - x) * 64; gotoy = y + (Vedal.y - y) + sign(Vedal.y - y) * 48; timer = 40; \}
+\par    else if (cycle == 25) DisplayMessage("Camila", "", "Let me think a little.", 1);
+\par    else if (cycle == 26 && Interact()) DisplayMessage("Camila", "", "Can you turn on the torches for me#while I'm thinking?", 1);
+\par    else if (cycle == 27 && Interact()) DisplayMessage("Vedal", "Displeased", "What am I, your errand boy?", 1);
+\par    else if (cycle == 28 && Interact()) DisplayMessage("Camila", "", "Yes.", 1);
+\par    else if (cycle == 29 && Interact()) DisplayMessage("Vedal", "Mad", "....", 0.5);
+\par    else if (cycle == 30 && Interact()) DisplayMessage("Camila", "", "Not like you have anything better to do#right now, you're stuck in my realm.", 1);
+\par    else if (cycle == 31 && Interact()) DisplayMessage("Vedal", "", "Fair enough.", 1);
+\par    else if (cycle == 32 && Interact()) DisplayMessage("Camila", "", "Alright, chop chop!", 1);
+\par    else if (cycle == 33 && Interact()) \{ cycle = -1; EndMessage(1); stage = "torch"; talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "torch" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "Let me think a little longer...", 1);
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Camila", "", "Turn on those torches for me while I'm#thinking, alright?", 1);
+\par    else if (cycle == 2 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "quest" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Vedal", "Unimpressed", "So, have you thought of anything?", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) DisplayMessage("Camila", "", "Yes, I have figured out the answer!", 1);
+\par    else if (cycle == 2 && Interact()) DisplayMessage("Vedal", "Surprised", "You have? What's the answer?", 1);
+\par    else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "Grin", "I knew you were still useful to have around!", 1);
+\par    else if (cycle == 4 && Interact()) DisplayMessage("Camila", "", "The answer is...", 1);
+\par    else if (cycle == 5 && Interact()) \{ DisplayMessage("Camila", "", "That I have literally no clue!", 1); instance_create(x, y, WhiteDing); \}
+\par    else if (cycle == 6 && Interact()) DisplayMessage("Vedal", "Mad", "...I take back anything I just said.", 1);
+\par    else if (cycle == 7 && Interact()) DisplayMessage("Camila", "", "But I think Filian might know something.", 1);
+\par    else if (cycle == 8 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Why do you think that?", 1);
+\par    else if (cycle == 9 && Interact()) DisplayMessage("Camila", "", "She knows Neuro pretty well, and she has#many connections to other vtubers.", 1);
+\par    else if (cycle == 10 && Interact()) DisplayMessage("Camila", "", "If anyone knows anything, it's gotta be her.", 1);
+\par    else if (cycle == 11 && Interact()) DisplayMessage("Vedal", "Unimpressed", "...And can you take me to her?", 1);
+\par    else if (cycle == 12 && Interact()) DisplayMessage("Camila", "", "Yes I can!", 1);
+\par    else if (cycle == 13 && Interact()) \{ EndMessage(0); timer = 100; \}
+\par    else if (cycle == 14) DisplayMessage("Vedal", "Displeased", "...So are you going to--", 1);
+\par    else if (cycle == 15) \{ DisplayMessage("Camila", "", "NOPE!", 1); ScreenShake(14, 20, smack); \}
+\par    else if (cycle == 16 && Interact()) \{ ScreenShake(14, 20, shock); DisplayMessage("Vedal", "Angry", "WHY NOT??!!", 1); \}
+\par    else if (cycle == 17 && Interact()) \{ EndMessage(0); gotox = x + (Vedal.x - x) + sign(Vedal.x - x) * 48; gotoy = y + (Vedal.y - y) + sign(Vedal.y - y) * 64; timer = 20; \}
+\par    else if (cycle == 18) DisplayMessage("Camila", "", "Because I want to play a game with#you first.", 1);
+\par    else if (cycle == 19 && Interact()) \{ ScreenShake(14, 20, smack); DisplayMessage("Vedal", "Mad", "YOU THINK WE'VE GOT TIME FOR GAMES??", 1); \}
+\par    else if (cycle == 20 && Interact()) DisplayMessage("Camila", "", "If you're in such a hurry, then why don't#you go there yourself.", 1);
+\par    else if (cycle == 21 && Interact()) DisplayMessage("Camila", "", "Go ahead. Do it.", 1);
+\par    else if (cycle == 22 && Interact()) \{ EndMessage(0); timer = 120; \}
+\par    else if (cycle == 23) DisplayMessage("Vedal", "Unimpressed", "........", 0.5);
+\par    else if (cycle == 24 && Interact()) DisplayMessage("Camila", "", "What's that? You can't?", 1);
+\par    else if (cycle == 25 && Interact()) DisplayMessage("Camila", "", "Then I guess you have no choice!", 1);
+\par    else if (cycle == 26 && Interact()) DisplayMessage("Vedal", "Angry", "You better make it quick then.", 1);
+\par    else if (cycle == 27 && Interact()) DisplayMessage("Camila", "", "Alright, let's go!", 1);
+\par    else if (cycle == 28 && Interact()) \{ EndMessage(1); instance_create(920, 330, o_Portal); cycle = -1; stage = "transition"; talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "transition" && cycle != -1) \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "Go through the portal!", 1);
+\par     else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "game") \{
+\par     if (cycle == 0) \{ timer = 60; \}
+\par     else if (cycle == 1) \{ Vedal.face = "right"; DisplayMessage("Camila", "", "One of these crystals here has something#hidden inside of it.", 1); \}
+\par     else if (cycle == 2 && Interact()) DisplayMessage("Camila", "", "I want you to find it.", 1);
+\par     else if (cycle == 3 && Interact()) DisplayMessage("Vedal", "Unimpressed", "Is this your idea of a game?", 1);
+\par     else if (cycle == 4 && Interact()) DisplayMessage("Camila", "", "You said you don't have much time.", 1);
+\par     else if (cycle == 5 && Interact()) DisplayMessage("Camila", "", "Or do you want me to make a longer game?", 1);
+\par     else if (cycle == 6 && Interact()) DisplayMessage("Vedal", "Smirk", "Forget I said anything.", 1);
+\par     else if (cycle == 7 && Interact()) DisplayMessage("Vedal", "Mad", "Alright, watch me speedrun this shit.", 1);
+\par     else if (cycle == 8 && Interact()) \{ EndMessage(1); cycle = -1; stage = "find"; talking = 0; \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "find" && cycle != -1) \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", choose("Alright, I'm watching...", "Well, I'm waiting!", "What are you waiting for?"), 1);
+\par     else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "wait" || stage == "wait2") break;
+\par 
+\par if (stage == "finish") \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "See you another time!", 1);
+\par     else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "finish2") \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "I still can't believe you actually#broke every single crystal.", 1);
+\par     else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "finish3") \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "...Did you seriously break every#single crystal?", 1);
+\par     else if (cycle == 1 && Interact()) DisplayMessage("Camila", "", "The game has already ended, bro.", 1);
+\par     else if (cycle == 2 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par if (stage == "finish4") \{
+\par     if (cycle == 0 && Interact()) DisplayMessage("Camila", "", "I still can't believe you actually#found the plush on your first try.", 1);
+\par     else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par     else break;
+\par \}
+\par 
+\par cycle += 1;
+\par 
+\par 
+\par }
+ 

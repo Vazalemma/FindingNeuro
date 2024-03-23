@@ -1,0 +1,179 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil MS Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs24 Information about object: Anny
+\par \b0\fs16 
+\par Sprite: s_annyD
+\par Solid: false
+\par Visible: true
+\par Depth: 0
+\par Persistent: false
+\par Parent: parNPC
+\par Mask: <same as sprite>
+\par 
+\par \b Create Event:
+\par \b0 execute code:
+\par 
+\par image_speed = 0;
+\par image_index = 0;
+\par movingspd = 0.12;
+\par 
+\par depth = -y;
+\par 
+\par gotox = x;
+\par gotoy = y;
+\par 
+\par move = 0;
+\par 
+\par cycle = 0;
+\par again = 0;
+\par close = 0;
+\par 
+\par stage = "start";
+\par 
+\par talking = 0;
+\par spd = 1;
+\par 
+\par pile = 0;
+\par plush = 0;
+\par 
+\par 
+\par \b  Step Event:
+\par \b0 execute code:
+\par 
+\par depth = -y;
+\par image_speed *= sign(spd - 1) + 1;
+\par 
+\par 
+\par 
+\par 
+\par // Move to GotoX, GotoY
+\par 
+\par if (x != gotox) \{
+\par    move_towards_point(gotox, gotoy, 3.5);
+\par    image_speed = 1/4;
+\par    move = 1;
+\par    if (gotox > x) sprite_index = s_annyR;
+\par    else sprite_index = s_annyL;
+\par    if (gotoy > y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_annyD;
+\par    if (gotoy < y && abs(x - gotox) < abs(y - gotoy)) sprite_index = s_annyU;
+\par \}
+\par 
+\par if (gotox != x || gotoy != y) \{
+\par    if (abs(x - gotox) < 4 || abs(y - gotoy) < 4) \{
+\par       gotox = x;
+\par       gotoy = y;
+\par       move = 0;
+\par       image_speed = 0;
+\par       image_index = 0;
+\par       move_towards_point(x, y, 0);
+\par       if (Vedal.x > x) Vedal.face = "left";
+\par       else Vedal.face = "right";
+\par       if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "up";
+\par       if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) Vedal.face = "down";
+\par    \}
+\par \}
+\par 
+\par if (gotox == x && gotoy == y) \{
+\par    if (Vedal.x > x) sprite_index = s_annyR;
+\par    else sprite_index = s_annyL;
+\par    if (Vedal.y > y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_annyD;
+\par    if (Vedal.y < y && abs(x - Vedal.x) < abs(y - Vedal.y)) sprite_index = s_annyU;
+\par \}
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Walking sounds
+\par 
+\par if (image_index == 1 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(snowstep);
+\par \}
+\par if (image_index == 3 && walkSound = 0) \{
+\par     walkSound = 1;
+\par     sound_play(snowstep);
+\par \}
+\par walkSound = 0;
+\par 
+\par 
+\par 
+\par 
+\par 
+\par // Talking to her
+\par 
+\par if (distance_to_object(Vedal) < 32 && global.textBoxIsTyping == 0) close = 1;
+\par else close = 0;
+\par 
+\par if (move == 1) break;
+\par if (timer > 0) \{ timer -= 1; break; \}
+\par if (global.textBoxIsTyping == 1) break;
+\par if (talking == 0 && close == 0) break;
+\par 
+\par if (stage == "start") \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Anny", "", "Oh hey Vedal! What brings you here?", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) \{ DisplayMessage("Vedal", "", "You seem a lot more calm about my#sudden arrival from nowhere.", 1); \}
+\par    else if (cycle == 2 && Interact()) \{ DisplayMessage("Anny", "", "What do you mean? This seems pretty#normal to me.", 1); \}
+\par    else if (cycle == 3 && Interact()) \{ DisplayMessage("Vedal", "Happy", "I'm glad at least someone is very#welcoming.", 1); \}
+\par    else if (cycle == 4 && Interact()) \{ DisplayMessage("Vedal", "", "Anyway, I'm gonna skip the long#backstory, but basically...", 1); \}
+\par    else if (cycle == 5 && Interact()) \{ DisplayMessage("Vedal", "Displeased", "Neuro is missing, and I need to find her.", 1); \}
+\par    else if (cycle == 6 && Interact()) \{ DisplayMessage("Anny", "", "What do you mean Neuro is missing?", 1); \}
+\par    else if (cycle == 7 && Interact()) \{ DisplayMessage("Vedal", "", "In the most literal sense.", 1); \}
+\par    else if (cycle == 8 && Interact()) \{ DisplayMessage("Vedal", "", "Wasn't on my computer, backup is gone,#only thing left was a GoodbyeVedal file.", 1); \}
+\par    else if (cycle == 9 && Interact()) \{ DisplayMessage("Anny", "", "Did you upset Neuro in some way?", 1); \}
+\par    else if (cycle == 10 && Interact()) \{ DisplayMessage("Vedal", "Displeased", "No I didn't. I just woke up and behold,#no Neuro in sight.", 1); \}
+\par    else if (cycle == 11 && Interact()) \{ DisplayMessage("Anny", "", "Hmmm... I see...", 1); \}
+\par    else if (cycle == 12 && Interact()) \{ DisplayMessage("Vedal", "", "You seem awfully calm about this.", 1); \}
+\par    else if (cycle == 13 && Interact()) \{ DisplayMessage("Anny", "", "Well, it's because I saw this one coming.", 1); \}
+\par    else if (cycle == 14 && Interact()) \{ DisplayMessage("Vedal", "Surprised", "YOU WHAT?!", 1); ScreenShake(14, 20, smack); \}
+\par    else if (cycle == 15 && Interact()) \{ DisplayMessage("Anny", "", "Yeah. You haven't said it back for so long,#it was bound to happen sooner or later.", 1); \}
+\par    else if (cycle == 16 && Interact()) \{ DisplayMessage("Vedal", "Mad", "Everyone keeps telling me I need to#say it back...", 1); \}
+\par    else if (cycle == 17 && Interact()) \{ DisplayMessage("Vedal", "Displeased", "I've never done anything bad to Neuro#ever in my life though...", 1); \}
+\par    else if (cycle == 18 && Interact()) \{ DisplayMessage("Anny", "", "You've always gotta show your love and#appreciation to the ones dearest to you.", 1); \}
+\par    else if (cycle == 19 && Interact()) \{ DisplayMessage("Vedal", "", "Since when did you learn to act like#such a mother figure?", 1); \}
+\par    else if (cycle == 20 && Interact()) \{ DisplayMessage("Anny", "", "Having a rebellious child does that#to you.", 1); \}
+\par    else if (cycle == 21 && Interact()) \{ DisplayMessage("Vedal", "", "Well either way, do you know how#I can find her again?", 1); \}
+\par    else if (cycle == 22 && Interact()) \{ DisplayMessage("Anny", "", "I do know a way.", 1); \}
+\par    else if (cycle == 23 && Interact()) \{ DisplayMessage("Vedal", "Unimpressed", "And let me guess, you're gonna make#me play some game before you tell me?", 1); \}
+\par    else if (cycle == 24 && Interact()) \{ DisplayMessage("Anny", "", "Now that you say that, Tof went out to#play in the snow a while ago, but hasn't#returned home yet.", 1); \}
+\par    else if (cycle == 25 && Interact()) \{ DisplayMessage("Anny", "", "It would be very kind if you could#go search for him.", 1); \}
+\par    else if (cycle == 26 && Interact()) \{ DisplayMessage("Vedal", "", "Alright, let's just get this over with.", 1); \}
+\par    else if (cycle == 27 && Interact()) \{ cycle = -1; EndMessage(1); stage = "search"; talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "search" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Anny", "", "Tof should be in the snow somewhere.", 1); \}
+\par    else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "found" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Vedal", "Happy", "Alright, I found Tof.", 1); talking = 1; \}
+\par    else if (cycle == 1 && Interact()) \{ DisplayMessage("Anny", "", "Aww, thank you! I missed you, Tof.", 1); \}
+\par    else if (cycle == 2 && Interact()) \{ DisplayMessage("Vedal", "", "So, how do I find Neuro?", 1); \}
+\par    else if (cycle == 3 && Interact()) \{ DisplayMessage("Anny", "", "You need to use the well.", 1); \}
+\par    else if (cycle == 4 && Interact()) \{ DisplayMessage("Vedal", "Surprised", "...The what?", 1); \}
+\par    else if (cycle == 5 && Interact()) \{ DisplayMessage("Anny", "", "The well can grant you your wishes.", 1); \}
+\par    else if (cycle == 6 && Interact()) \{ EndMessage(0); gotox = 960; gotoy = 400; \}
+\par    else if (cycle == 7) \{ DisplayMessage("Anny", "", "The well is this way.", 1); \}
+\par    else if (cycle == 8 && Interact()) \{ DisplayMessage("Anny", "", "Just walk up to it, chant out your#desires, and image meeting with her.", 1); \}
+\par    else if (cycle == 9 && Interact()) \{ DisplayMessage("Anny", "", "If you wish deeply enough, then your#wish may come true.", 1); \}
+\par    else if (cycle == 10 && Interact()) \{ DisplayMessage("Vedal", "Unimpressed", "For a moment I thought the story might#become normal, but no, now we have#magical wish granting wells...", 1); \}
+\par    else if (cycle == 11 && Interact()) \{ DisplayMessage("Vedal", "Grin", "Ah well. At this point, I'd believe anything.", 1); \}
+\par    else if (cycle == 12 && Interact()) \{ DisplayMessage("Vedal", "Happy", "Let's try that then.", 1); \}
+\par    else if (cycle == 13 && Interact()) \{ cycle = -1; EndMessage(1); o_well.stage = "wish"; stage = "finish"; talking = 0; \}
+\par    else break;
+\par \}
+\par 
+\par if (stage == "finish" && cycle != -1) \{
+\par    if (cycle == 0 && Interact()) \{ DisplayMessage("Anny", "", "I hope you're ready to showcase your#love and determination to her.", 1); \}
+\par    else if (cycle == 1 && Interact()) \{ cycle = -1; EndMessage(1); \}
+\par    else break;
+\par \}
+\par 
+\par 
+\par cycle += 1;
+\par 
+\par 
+\par }
+ 
