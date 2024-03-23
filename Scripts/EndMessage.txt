@@ -1,0 +1,5 @@
+control = argument0;
+with (Writer) instance_destroy();
+with (o_textbox) instance_destroy();
+with (parCharacter) instance_destroy();
+global.playerHasControl = control;

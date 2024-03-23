@@ -1,0 +1,46 @@
+place = argument0;
+
+r = choose(0, 1, 2);
+
+if (place == 1) {
+    if (r == 0) {
+        Filian.x = 345; Filian.gotox = Filian.x;
+        Filian.y = 500; Filian.gotoy = Filian.y;
+    }
+    if (r == 1) {
+        Filian.x = 720; Filian.gotox = Filian.x;
+        Filian.y = 480; Filian.gotoy = Filian.y;
+    }
+    if (r == 2) {
+        Filian.x = 505; Filian.gotox = Filian.x;
+        Filian.y = 310; Filian.gotoy = Filian.y;
+    }
+}
+else if (place == 2) {
+    if (r == 0) {
+        Filian.x = 1680; Filian.gotox = Filian.x;
+        Filian.y = 560; Filian.gotoy = Filian.y;
+    }
+    if (r == 1) {
+        Filian.x = 1450; Filian.gotox = Filian.x;
+        Filian.y = 690; Filian.gotoy = Filian.y;
+    }
+    if (r == 2) {
+        Filian.x = 1365; Filian.gotox = Filian.x;
+        Filian.y = 310; Filian.gotoy = Filian.y;
+    }
+}
+else if (place == 3) {
+    if (r == 0) {
+        Filian.x = 500; Filian.gotox = Filian.x;
+        Filian.y = 888; Filian.gotoy = Filian.y;
+    }
+    if (r == 1) {
+        Filian.x = 1300; Filian.gotox = Filian.x;
+        Filian.y = 950; Filian.gotoy = Filian.y;
+    }
+    if (r == 2) {
+        Filian.x = 940; Filian.gotox = Filian.x;
+        Filian.y = 920; Filian.gotoy = Filian.y;
+    }
+}

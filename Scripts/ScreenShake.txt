@@ -1,0 +1,4 @@
+instance_create(0, 0, Shaker);
+Shaker.magnitude = argument0;
+Shaker.duration = argument1;
+sound_play(argument2);
